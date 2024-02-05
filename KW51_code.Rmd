@@ -29,7 +29,7 @@ Contact for questions: Lizzie Neumann, neumannl(at)hsu-hh.de
 ```{r libraries, message=FALSE, warning=FALSE, include=FALSE}
 ## load libraries
 suppressPackageStartupMessages({
-  library(covest) # our package, in functions folder
+  library(covest) # our package
   library(tidyr)
   library(dplyr)
   library(patchwork)
@@ -255,8 +255,8 @@ It is done pairwise, so different bandwidths are taken into account. There is
 some missing data in the temperature measurements, so first of all we need to get 
 rid of that. The conditional mean is then assigned to each time step, depending 
 on the measured temperature. Afterwards, we can estimated the conditional covariance
-according to Equation (6) in [4] (cf. Equation (2.3) in [7] and (4) in [4] for the
-non pairwise estimation of the conditional covariance).
+according to Equation (6) in [4] (for the non pairwise estimation of the 
+conditional covariance compare Equation (2.3) in [7] and (4) in [4]).
 
 ```{r conditionalCovariance}
 
