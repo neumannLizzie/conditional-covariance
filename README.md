@@ -30,6 +30,10 @@ before, during, and after retrofitting. In this section we load the data
 from the website. There are different versions for Windows, Linux and
 MAC OS.
 
+> \[!NOTE\]  
+> Depending on the operating system (Windows, Linux or MAC OS), choose
+> the below chunk to download, unzip and read in the data.
+
 ### Windows
 
 ``` r
