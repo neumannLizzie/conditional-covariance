@@ -167,7 +167,7 @@ c("min:", min(zseq), "max:", max(zseq))
 
 For estimating the conditional covariance we need a conditional estimation of the 
 mean, here we implemented 4 different versions on how to estimate it. Cf. Section 
-2.3 in [3]:
+2.3 in [4]:
 
 1. A bilinear model using R package segmented [3], cf. [2] and [4]. 
 
@@ -179,7 +179,7 @@ mean, here we implemented 4 different versions on how to estimate it. Cf. Sectio
 TODO: For this estimation we need bandwidths per mode, you can try different ones.
 
 ```{r conditionalMean}
-## 1. estimate bilinear mean via segmented
+## 1. estimate bilinear mean using segmented
 mest_bl <- matrix(NA, ncol = pp, nrow = length(zseq))
 for(p in 1:pp){
   ef_t <- na.omit(data.frame(x = data_ef_t[,p],z = data_ef_t[,ncol(data_ef_t)]))
@@ -187,7 +187,7 @@ for(p in 1:pp){
   mest_bl[,p] <- predict(xz,data.frame(z = zseq))
 }
 
-## 2. estimate conditional mean via mgcv
+## 2. estimate conditional mean using gam from mgcv
 mest_mgcv <- matrix(NA, ncol = pp, nrow = length(zseq))
 for(p in 1:pp){
   ef_t <- na.omit(data.frame(x = data_ef_t[,p],z = data_ef_t[,ncol(data_ef_t)]))
@@ -195,7 +195,7 @@ for(p in 1:pp){
   mest_mgcv[,p] <- predict(xz,data.frame(z = zseq))
 }
 
-## 3. estimate conditional mean via loess
+## 3. estimate conditional mean using loess from stats
 mest_loess <- matrix(NA, ncol = pp, nrow = length(zseq))
 for(p in 1:pp){
   ef_t <- na.omit(data.frame(x = data_ef_t[,p],z = data_ef_t[,ncol(data_ef_t)]))
@@ -203,7 +203,7 @@ for(p in 1:pp){
   mest_loess[,p] <- predict(xz,data.frame(z = zseq))
 }
 
-## 4. estimate conditional Nadaraya-Watson-kernel-based mean via covest
+## 4. estimate conditional Nadaraya-Watson-kernel-based mean using covest
 # TODO: choose bandwidths
 h_m <- c(1,1,1,1,1,1,1,1)
 mest_nwk<- matrix(NA, ncol = pp, nrow = length(zseq))
@@ -260,7 +260,7 @@ non pairwise estimation of the conditional covariance).
 
 ```{r conditionalCovariance}
 
-## estimate conditional covariance for each sensor pair ii,jj = 1:2
+## estimate conditional covariance for each sensor pair ii,jj = 1:8
 cest  <- array(rep(NA, pp*(pp)*length(zseq)),
                dim=c(pp, pp, length(zseq)))
 
