@@ -20,19 +20,27 @@ the modal data of the railway bridge KW51.
 
 Contact for questions: Lizzie Neumann, neumannl(at)hsu-hh.de
 
+## Load Libraries
+
+``` r
+install.packages("librarian")
+## also include the github repo for R-package "covest" hosted on github: neumannLizzie / conditional-covariance
+librarian::shelf(ggplot2, dplyr, tidyr, patchwork, zoo, pracma, segmented, mgcv, covest, R.matlab, viridis, stats)
+```
+
 ## Inread Data
 
-The data set is available from <https://zenodo.org/records/3745914>, cf.
-([Maes and Lombaert 2020](#ref-Maes.Lombaert_2020)), and for information
-on the bridge compare ([Maes and Lombaert
-2021](#ref-Maes.Lombaert_2021)). The time is separated in three periods,
-before, during, and after retrofitting. In this section we load the data
-from the website. There are different versions for Windows, Linux and
-MAC OS.
+The data set is freely available from
+<https://zenodo.org/records/3745914>, cf. ([Maes and Lombaert
+2020](#ref-Maes.Lombaert_2020)), and for information on the bridge
+compare ([Maes and Lombaert 2021](#ref-Maes.Lombaert_2021)). The time is
+separated in three periods, before, during, and after retrofitting. In
+this section we load the data from the website. There are different
+versions for Windows, Linux and MAC OS.
 
 > \[!NOTE\]  
 > Depending on the operating system (Windows, Linux or MAC OS), choose
-> the below chunk to download, unzip and read in the data.
+> one of the below chunks to download, unzip and read in the data.
 
 ### Windows
 
@@ -69,7 +77,7 @@ POSIXt format. We use only the data from before the retrofitting, Oct
 2nd, 2018 - May 14th, 2019.
 
 ``` r
-## temperature data
+## environmental data
 df1 <- list.import.mat$modes[7][[1]] |>
   data.frame() |>
   `colnames<-`(list.import.mat$modes[6][[1]] |> unlist()) |>
@@ -95,10 +103,9 @@ df2 <- list.import.mat$modes[2][[1]] |>
 
 ## combine the data frames
 data_ef_t <- cbind(df2[,1:14], df1$tBD31A, df2$time)
-
 colnames(data_ef_t) <- c(colnames(data_ef_t[,1:14]), "tBD31A", "time")
 
-## only data before retrofitting : Oct 2nd, 2018 - May 14th, 2019
+## select only data before retrofitting: Oct 2nd, 2018 - May 14th, 2019
 data_ef_t <- data_ef_t[1:5400,]
 ```
 
@@ -136,9 +143,7 @@ Estimation of the temperature grid: from minimum to maximum measured
 temperature in steps of 0.1. The range is from -3°C to 26.3°C.
 
 ``` r
-zseq <- seq(round(min(na.omit(data_ef_t$tBD31A)),1), 
-            round(max(na.omit(data_ef_t$tBD31A)),1), by=.1)
-
+zseq <- seq(round(min(na.omit(data_ef_t$tBD31A)),1),  round(max(na.omit(data_ef_t$tBD31A)),1), by=.1)
 c("min:", min(zseq), "max:", max(zseq))
 ```
 
@@ -197,7 +202,7 @@ for(p in 1:pp){
 
 ## 4. estimate conditional Nadaraya-Watson-kernel-based mean using covest
 # TODO: choose bandwidths
-h_m <- c(1,1,1,1,1,1,1,1)
+h_m <- rep(1, 8)
 mest_nwk<- matrix(NA, ncol = pp, nrow = length(zseq))
 for(p in 1:pp){
   for(k in 1:length(zseq)){
@@ -229,16 +234,9 @@ each mode pair. In each column and row, we have the order mode: 3, 5, 6,
 
 ``` r
 ## global:
-# h_c <- matrix(2.5, nrow = pp, ncol = pp)
+h_c <- matrix(2.5, nrow = 8, ncol = 8)
 ## pairwise:
-h_c <- rbind(c(2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5),
-             c(NA,2.5,2.5,2.5,2.5,2.5,2.5,2.5),
-             c(rep(NA,2),2.5,2.5,2.5,2.5,2.5,2.5),
-             c(rep(NA,3),2.5,2.5,2.5,2.5,2.5),
-             c(rep(NA,4),2.5,2.5,2.5,2.5),
-             c(rep(NA,5),2.5,2.5,2.5),
-             c(rep(NA,6),2.5,2.5),
-             c(rep(NA,7),2.5))
+h_c[lower.tri(h_c)] <- NA
 ```
 
 ## Estimation of the Conditional Covariance and Correlation
@@ -256,8 +254,7 @@ estimation of the conditional covariance).
 
 ``` r
 ## estimate conditional covariance for each sensor pair ii,jj = 1:8
-cest  <- array(rep(NA, pp*(pp)*length(zseq)),
-               dim=c(pp, pp, length(zseq)))
+cest  <- array(rep(NA, pp*(pp)*length(zseq)), dim=c(pp, pp, length(zseq)))
 
 for(ii in 1:pp){
   for(jj in ii:pp){
@@ -296,8 +293,7 @@ for(ii in 1:pp){
 }
 
 ## estimating the conditional correlation
-corr <- array(rep(NA, pp*(pp)*length(zseq)),
-              dim=c(pp, pp, length(zseq)))
+corr <- array(rep(NA, pp*(pp)*length(zseq)), dim=c(pp, pp, length(zseq)))
 
 for(k in 1:length(zseq)) corr[,,k] <- cov2cor(cest[,,k])
 ```
@@ -349,6 +345,27 @@ p1 <- ggplot(df_p1, aes(x = factor(x), y = factor(y), fill = z)) +
   scale_y_discrete(name = "Mode", limits = c("14","13","12","10","9","6","5")) +
   scale_x_discrete(name = "Mode", limits = c("3","5","6","9","10","12","13")) 
 ```
+
+``` r
+p1
+```
+
+![](figures/pressure-1.png)
+
+> \[!NOTE\]  
+> Highlights information that users should take into account, even when
+> skimming.
+
+> \[!TIP\] Optional information to help a user be more successful.
+
+> \[!IMPORTANT\]  
+> Crucial information necessary for users to succeed.
+
+> \[!WARNING\]  
+> Critical content demanding immediate user attention due to potential
+> risks.
+
+> \[!CAUTION\] Negative potential consequences of an action.
 
 ## References
 
