@@ -1,7 +1,5 @@
 Estimation of the Conditional Mean, Covariance and Correlation of the
 Frequency Data from Railway Bridge KW51
-================
-true
 
 This code provides the estimation of the conditional covariance as
 presented in **“Confounder-adjusted Covariances of Sensor Outputs and
