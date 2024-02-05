@@ -1,5 +1,4 @@
-Estimation of the Conditional Mean, Covariance and Correlation of the
-Frequency Data from Railway Bridge KW51
+# Estimation of the Conditional Mean, Covariance and Correlation of the Frequency Data from Railway Bridge KW51
 
 This code provides the estimation of the conditional covariance as
 presented in **“Confounder-adjusted Covariances of Sensor Outputs and
@@ -362,7 +361,7 @@ p1 <- ggplot(df_p1, aes(x = factor(x), y = factor(y), fill = z)) +
 p1
 ```
 
-<img src="README_files/figure-gfm/pressure-1.png" width="100%" />
+<img src="figures/pressure-1.png" width="100%" />
 
 <!-- ![](figures/pressure-1.png) -->
 
