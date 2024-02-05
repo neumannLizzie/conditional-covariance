@@ -4,13 +4,14 @@ Frequency Data from Railway Bridge KW51
 true
 
 This code provides the estimation of the conditional covariance as
-presented in “Confounder-adjusted Covariances of Sensor Outputs and
-Applications to Structural Health Monitoring” by L. Neumann, P.
-Wittenberg, A. Mendler, and J. Gertheiss (Neumann et al. 2024)
+presented in **“Confounder-adjusted Covariances of Sensor Outputs and
+Applications to Structural Health Monitoring”** by L. Neumann, P.
+Wittenberg, A. Mendler, and J. Gertheiss ([Neumann et al.
+2024](#ref-Neumann.etal_2024))
 
-**TODO: indicates you can choose or change a variable or method to
-compare, e.g., different bandwidths or methods for estimating the
-conditional mean.**
+<!-- **TODO: indicates you can choose or change a variable or method to compare, e.g., -->
+<!-- different bandwidths or methods for estimating the conditional -->
+<!-- mean.**  -->
 
 This code contains estimation of the Nadaraya-Watson type kernel
 estimation of the conditional mean and covariance and different
@@ -21,40 +22,39 @@ Contact for questions: Lizzie Neumann, neumannl(at)hsu-hh.de
 
 ## Inread Data
 
-> \[!NOTE\]  
-> Windows or Linux?
-
 The data set is available from <https://zenodo.org/records/3745914>, cf.
-(Maes and Lombaert 2020), and for information on the bridge compare
-(Maes and Lombaert 2021). The time is separated in three periods,
+([Maes and Lombaert 2020](#ref-Maes.Lombaert_2020)), and for information
+on the bridge compare ([Maes and Lombaert
+2021](#ref-Maes.Lombaert_2021)). The time is separated in three periods,
 before, during, and after retrofitting. In this section we load the data
-from the website. There are different versions for Windows and Linux.
+from the website. There are different versions for Windows, Linux and
+MAC OS.
+
+### Windows
 
 ``` r
-## TODO: Windows or Linux? Comment out what is not required 
-
-## WINDOWS ##
-
 ## download data file
 url <- "https://zenodo.org/records/3745914/files/trackedmodes.zip?download=1"
 path1 <- tempfile(fileext = ".zip")
 if (file.exists(path1))  'file alredy exists' else download.file(url, path1, mode="wb")
 unzip(zipfile = path1,exdir = tempdir())
+list.import.mat <- R.matlab::readMat(paste0(tempdir(),"/trackedmodes/trackedmodes.mat"))
+```
 
-list.import.mat <- R.matlab::readMat(paste0(tempdir(),"/trackedmodes/trackedmodes.mat")) 
+### Linux
 
-## -------------------------------------------------------------------------- ##
-## LINUX ##
-
+``` r
 ## download data file
-# download.file("https://zenodo.org/records/3745914/files/trackedmodes.zip?download=1", 
-#               "trackedmodes.zip", method ="auto")
+download.file("https://zenodo.org/records/3745914/files/trackedmodes.zip?download=1",
+              "trackedmodes.zip", method ="auto")
+unzip("trackedmodes.zip")
+list.import.mat <- R.matlab::readMat("trackedmodes/trackedmodes.mat")
+```
 
-## unzip data file
-# unzip("trackedmodes.zip")
+### MAC OS
 
-## inread data
-# list.import.mat <- R.matlab::readMat("trackedmodes/trackedmodes.mat")
+``` r
+## download data file
 ```
 
 ## Extracting the temperature and modal data
@@ -102,7 +102,7 @@ data_ef_t <- data_ef_t[1:5400,]
 
 Due to some missing data, we choose only modes 3, 5, 6, 9, 10, 12, 13
 and 14, and interpolate the missing data linearly as done in Maes and
-Lombaert (2021).
+Lombaert ([2021](#ref-Maes.Lombaert_2021)).
 
 ``` r
 ## choose mode 3, 5, 6, 9, 10, 12, 13 and 14 and the temperature
@@ -142,19 +142,25 @@ c("min:", min(zseq), "max:", max(zseq))
 
 For estimating the conditional covariance we need a conditional
 estimation of the mean, here we implemented 4 different versions on how
-to estimate it. Cf. Section 2.3 in (Neumann et al. 2024):
+to estimate it. Cf. Section 2.3 in ([Neumann et al.
+2024](#ref-Neumann.etal_2024)):
 
-1.  A bilinear model using R package segmented (Muggeo 2008), cf. Maes
-    and Lombaert (2021) and Neumann et al. (2024).
+1.  A bilinear model using R package segmented ([Muggeo
+    2008](#ref-Muggeo_2008)), cf. Maes and Lombaert
+    ([2021](#ref-Maes.Lombaert_2021)) and Neumann et al.
+    ([2024](#ref-Neumann.etal_2024)).
 
-2.  Penalized regression splines using mgcv (Wood 2017), cf. Section 2.2
-    in (Neumann et al. 2024).
+2.  Penalized regression splines using mgcv ([Wood
+    2017](#ref-Wood_2017)), cf. Section 2.2 in ([Neumann et al.
+    2024](#ref-Neumann.etal_2024)).
 
-3.  Local Polynomial Regression using stats (R Core Team 2023), cf.
-    (Neumann et al. 2024).
+3.  Local Polynomial Regression using stats ([R Core Team
+    2023](#ref-R_2023)), cf. ([Neumann et al.
+    2024](#ref-Neumann.etal_2024)).
 
 4.  Nadaraya-Watson kernel estimator using our PACKAGE covest, cf.
-    (Neumann et al. 2024) and Yin et al. (2010).
+    ([Neumann et al. 2024](#ref-Neumann.etal_2024)) and Yin et al.
+    ([2010](#ref-Yin.etal_2010)).
 
 > \[!NOTE\]  
 > For this estimation we need bandwidths per mode, you can try different
@@ -239,9 +245,10 @@ account. There is some missing data in the temperature measurements, so
 first of all we need to get rid of that. The conditional mean is then
 assigned to each time step, depending on the measured temperature.
 Afterwards, we can estimated the conditional covariance according to
-Equation (6) in (Neumann et al. 2024) (cf. Equation (2.3) in Yin et al.
-(2010) and (4) in (Neumann et al. 2024) for the non pairwise estimation
-of the conditional covariance).
+Equation (6) in ([Neumann et al. 2024](#ref-Neumann.etal_2024))
+(cf. Equation (2.3) in Yin et al. ([2010](#ref-Yin.etal_2010)) and (4)
+in ([Neumann et al. 2024](#ref-Neumann.etal_2024)) for the non pairwise
+estimation of the conditional covariance).
 
 ``` r
 ## estimate conditional covariance for each sensor pair ii,jj = 1:8
