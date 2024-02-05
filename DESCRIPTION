@@ -1,17 +1,27 @@
 Package: covest
 Type: Package
-Title: What the Package Does (Title Case)
+Title: TODO: What the Package Does (Title Case)
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
+Authors@R: c(
+            person("Lizzie", "Neumann", 
+            email = "<neumannl@hsu-hh.de>", 
+            role = c("aut"),
+            comment = c(ORCID = "0000-0003-2256-1127")),
+            person("Philipp", "Wittenberg", 
+            email = "pwitten@hsu-hh.de", 
+            role = c("aut", "cre"),
+            comment = c(ORCID = "0000-0001-7151-8243")))
+Maintainer: Lizzie Neumann <neumannl@hsu-hh.de>
+Description: TODO: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: What license is it under?
 Encoding: UTF-8
+URL: https://github.com/neumannLizzie/conditional-covariance
+BugReports: https://github.com/neumannLizzie/conditional-covariance/issues
 NeedsCompilation: yes
 SystemRequirements: C++11
 LazyData: true
-Imports: Rcpp (>= 1.0.6)
+Imports: Rcpp (>= 1.0.6), checkmate
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 7.2.1
 Roxygen: list(old_usage = TRUE)

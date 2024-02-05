@@ -20,15 +20,39 @@ the modal data of the railway bridge KW51.
 
 Contact for questions: Lizzie Neumann, neumannl(at)hsu-hh.de
 
-## Load Libraries
+## The covest R-package
+
+Describe what the R-package is for and what it does. Provide
+installation instructions.
+
+The package compiles C++ source code during installation, therefore you
+need the appropriate compilers:
+
+On *Windows* you need
+[Rtools](https://cran.r-project.org/bin/windows/Rtools/) available from
+CRAN.
+
+On *macOS* you need the Clang 6.x compiler and the GNU Fortran compiler
+from [macOS tools](https://cran.r-project.org/bin/macosx/tools/). Having
+installed the compilers, you need to open a terminal and start R via
+‘PATH=/usr/local/clang6/bin:\$PATH R’. You can then install the package
+via *devtools::install_github(“neumannLizzie/conditional-covariance”)*
+
+## Load libraries
 
 ``` r
 install.packages("librarian")
-## also include the github repo for R-package "covest" hosted on github: neumannLizzie / conditional-covariance
-librarian::shelf(ggplot2, dplyr, tidyr, patchwork, zoo, pracma, segmented, mgcv, covest, R.matlab, viridis, stats)
 ```
 
-## Inread Data
+    ## Installing package into '/home/pwitten/R/x86_64-pc-linux-gnu-library/4.2'
+    ## (as 'lib' is unspecified)
+
+``` r
+## also include the github repo for R-package "covest" hosted on github: neumannLizzie / conditional-covariance
+librarian::shelf(covest, dplyr, ggplot2, mgcv, patchwork, pracma, R.matlab, segmented, stats, tidyr, viridis, zoo)
+```
+
+## Reading in the data
 
 The data set is freely available from
 <https://zenodo.org/records/3745914>, cf. ([Maes and Lombaert
@@ -73,7 +97,7 @@ list.import.mat <- R.matlab::readMat("trackedmodes/trackedmodes.mat")
 
 In this step, we extract the steel surface temperature data and the
 modal data from the downloaded data set. The time stamp is changed to
-POSIXt format. We use only the data from before the retrofitting, Oct
+POSIXlt format. Here, we use only the data before the retrofitting, Oct
 2nd, 2018 - May 14th, 2019.
 
 ``` r
@@ -109,7 +133,7 @@ colnames(data_ef_t) <- c(colnames(data_ef_t[,1:14]), "tBD31A", "time")
 data_ef_t <- data_ef_t[1:5400,]
 ```
 
-## Interpolate the Data
+## Interpolating the data
 
 Due to some missing data, we choose only modes 3, 5, 6, 9, 10, 12, 13
 and 14, and interpolate the missing data linearly as done in Maes and
@@ -117,27 +141,19 @@ Lombaert ([2021](#ref-Maes.Lombaert_2021)).
 
 ``` r
 ## choose mode 3, 5, 6, 9, 10, 12, 13 and 14 and the temperature
-qq <- c(3,5,6,9,10,12,13,14,15)
+qq <- c(3, 5, 6, 9, 10, 12, 13, 14, 15)
 
-## first 38 are NaN
+## first 38 values are NaN
 df <- as.data.frame(data_ef_t[38:nrow(data_ef_t),qq]) 
 
-## linear interpolate missing data 
-data_ef_t <- df %>%
-  mutate(ef3 = na.approx(ef3)) %>%
-  mutate(ef5 = na.approx(ef5)) %>%
-  mutate(ef6 = na.approx(ef6)) %>%
-  mutate(ef9 = na.approx(ef9)) %>%
-  mutate(ef10 = na.approx(ef10)) %>%
-  mutate(ef12 = na.approx(ef12)) %>%
-  mutate(ef13 = na.approx(ef13)) %>%
-  mutate(ef14 = na.approx(ef14)) 
+## linear interpolate the missing data 
+data_ef_t <- df |> mutate(across(paste0("ef", qq[1:8]), ~na.approx(.)))
 
 ## number of modes
 pp <- ncol(data_ef_t)-1
 ```
 
-## Temperature Grid for Analysis
+## Set a temperature grid for the analysis
 
 Estimation of the temperature grid: from minimum to maximum measured
 temperature in steps of 0.1. The range is from -3°C to 26.3°C.
@@ -147,7 +163,9 @@ zseq <- seq(round(min(na.omit(data_ef_t$tBD31A)),1),  round(max(na.omit(data_ef_
 c("min:", min(zseq), "max:", max(zseq))
 ```
 
-## Different Approaches for the Estimation of the Conditional Mean
+    ## [1] "min:" "-3"   "max:" "26.3"
+
+## Four different Approaches for the Estimation of the Conditional Mean
 
 For estimating the conditional covariance we need a conditional
 estimation of the mean, here we implemented 4 different versions on how
@@ -171,9 +189,9 @@ to estimate it. Cf. Section 2.3 in ([Neumann et al.
     ([Neumann et al. 2024](#ref-Neumann.etal_2024)) and Yin et al.
     ([2010](#ref-Yin.etal_2010)).
 
-> \[!NOTE\]  
-> For this estimation we need bandwidths per mode, you can try different
-> ones
+> \[!IMPORTANT\]  
+> Using method 4. requires specification of bandwidths per mode. You can
+> try out different ones.
 
 ``` r
 ## 1. estimate bilinear mean using segmented
@@ -201,9 +219,9 @@ for(p in 1:pp){
 }
 
 ## 4. estimate conditional Nadaraya-Watson-kernel-based mean using covest
-# TODO: choose bandwidths
+# choose bandwidths
 h_m <- rep(1, 8)
-mest_nwk<- matrix(NA, ncol = pp, nrow = length(zseq))
+mest_nwk <- matrix(NA, ncol = pp, nrow = length(zseq))
 for(p in 1:pp){
   for(k in 1:length(zseq)){
     ef_t <- na.omit(data.frame(x = data_ef_t[,p],
@@ -217,15 +235,15 @@ for(p in 1:pp){
 ```
 
 > \[!NOTE\]  
-> Choose estimation method for the mean
+> Next, choose an estimation method for the mean.
 
 ``` r
-# possible from: mest_bl, mest_mgcv, mest_loess, mest_nwk
+# possible from: mest_bl, mest_mgcv, mest_loess or mest_nwk
 mest <- mest_bl
 ```
 
 > \[!NOTE\]  
-> Choose bandwidth h_c
+> Choose bandwidth h_c.
 
 For the estimation of the conditional covariance, we need bandwidths,
 either a global bandwidth for all mode pairs, or a different one for
@@ -242,71 +260,68 @@ h_c[lower.tri(h_c)] <- NA
 ## Estimation of the Conditional Covariance and Correlation
 
 Now we get to the estimation of the conditional covariance and
-correlation. It is done pairwise, so different bandwidths are taken into
-account. There is some missing data in the temperature measurements, so
-first of all we need to get rid of that. The conditional mean is then
-assigned to each time step, depending on the measured temperature.
-Afterwards, we can estimated the conditional covariance according to
-Equation (6) in ([Neumann et al. 2024](#ref-Neumann.etal_2024))
-(cf. Equation (2.3) in Yin et al. ([2010](#ref-Yin.etal_2010)) and (4)
-in ([Neumann et al. 2024](#ref-Neumann.etal_2024)) for the non pairwise
-estimation of the conditional covariance).
+correlation. This is done pairwise, so different bandwidths are taken
+into account. There is some missing data in the temperature
+measurements, so first of all we need discard this data. The conditional
+mean is then assigned to each time step, depending on the measured
+temperature. Afterwards, we can estimated the conditional covariance
+according to Equation (6) in ([Neumann et al.
+2024](#ref-Neumann.etal_2024)) (cf. Equation (2.3) in Yin et al.
+([2010](#ref-Yin.etal_2010)) and (4) in ([Neumann et al.
+2024](#ref-Neumann.etal_2024)) for the non pairwise estimation of the
+conditional covariance).
 
 ``` r
 ## estimate conditional covariance for each sensor pair ii,jj = 1:8
-cest  <- array(rep(NA, pp*(pp)*length(zseq)), dim=c(pp, pp, length(zseq)))
+cest  <- array(rep(NA, pp*(pp)*length(zseq)), dim = c(pp, pp, length(zseq)))
 
 for(ii in 1:pp){
   for(jj in ii:pp){
-    # cat(paste("ii = ",ii, "jj = ", jj), "\n")
-    
     ## subset of data, removing NAs
-    ef_t <- data_ef_t[,c(ii,jj,ncol(data_ef_t))]
+    ef_t <- data_ef_t[, c(ii, jj, ncol(data_ef_t))]
     ef_t <- na.omit(ef_t)
     p <- ncol(ef_t)-1
     
-    x <- ef_t[,1:2] # modal data
-    z <- ef_t[,3] # temperature data
+    x <- ef_t[, 1:2] # modal data
+    z <- ef_t[, 3] # temperature data
     
     ## assigning the conditional mean for the respective temperature at time i
     mx <- matrix(NA, nrow = nrow(x), ncol = p)
     z_x <- as.data.frame(cbind(round(zseq,1), 1:length(zseq)))
     for(i in 1:length(z)){
-      x_i <- z_x[z_x[,1]==round(z[i],1),2]
+      x_i <- z_x[z_x[, 1]==round(z[i], 1), 2]
       x_i <- x_i[1]
-      mx[i,] <- mest[x_i,c(ii,jj)]
+      mx[i, ] <- mest[x_i, c(ii,jj)]
     }
     
-    ## etimating the conditional covariance with the Nadaraya-Watson 
+    ## estimating the conditional covariance with the Nadaraya-Watson 
     ## kernel-based estimator for each temperature in the grid
     for (k in 1:length(zseq)){
-      cest_old <- matrix(0,p,p)
+      cest_old <- matrix(0, p, p)
       sumK_old <- 0
       cestk <- covest::covest(x = as.matrix(x), z = as.matrix(z), znew = zseq[k],
                               h = h_c[ii,jj], cest_old = matrix(0,p,p), 
                               sumK_old = 0, mx=mx)
-      
-      cest[ii,jj,k] <- cestk[1,2]
-      cest[jj,ii,k] <- cestk[2,1]
+      cest[ii, jj, k] <- cestk[1, 2]
+      cest[jj, ii, k] <- cestk[2, 1]
     }
   }
 }
 
 ## estimating the conditional correlation
-corr <- array(rep(NA, pp*(pp)*length(zseq)), dim=c(pp, pp, length(zseq)))
-
+corr <- array(rep(NA, pp*(pp)*length(zseq)), dim = c(pp, pp, length(zseq)))
 for(k in 1:length(zseq)) corr[,,k] <- cov2cor(cest[,,k])
 ```
 
-## Plot the lower triangular of the Conditional Correlation Matrix for Temperature Values z = -1°C and z = 10°C
+## Plot the lower triangular of the Conditional Correlation matrix for temperature levels z = -1°C and z = 10°C
 
 Now the lower triangular of the conditional correlation is plotted
-without the main diagonal because the correlation between the same modes
-is always 1.
+omitting the main diagonal because the correlation between the same
+modes is always 1.
 
 ``` r
-# plotting the conditional correlation of lower triangular 
- # set theme & background
+## plotting the conditional correlation of lower triangular 
+## set theme and background
 theme_set(theme_bw() +
             theme(panel.grid.major=element_blank(), 
                   panel.grid.minor=element_blank(),              
@@ -319,8 +334,7 @@ theme_set(theme_bw() +
             )
 )
 
-
-## lower triangular fo correlation matrix
+## lower triangular of the correlation matrix
 corr_tri <- array(rep(NA, pp*pp*length(zseq)), dim = c(pp, pp, length(zseq)))
 for(k in 1:length(zseq)){
    corr_k <- corr[,,k]
@@ -350,22 +364,9 @@ p1 <- ggplot(df_p1, aes(x = factor(x), y = factor(y), fill = z)) +
 p1
 ```
 
-![](figures/pressure-1.png)
+<img src="README_files/figure-gfm/pressure-1.png" width="100%" />
 
-> \[!NOTE\]  
-> Highlights information that users should take into account, even when
-> skimming.
-
-> \[!TIP\] Optional information to help a user be more successful.
-
-> \[!IMPORTANT\]  
-> Crucial information necessary for users to succeed.
-
-> \[!WARNING\]  
-> Critical content demanding immediate user attention due to potential
-> risks.
-
-> \[!CAUTION\] Negative potential consequences of an action.
+<!-- ![](figures/pressure-1.png) -->
 
 ## References
 
