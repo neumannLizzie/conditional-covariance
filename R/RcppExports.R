@@ -2,10 +2,10 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 .cov_est <- function(x, z, znew, h, cest_old, sumK_old, mx) {
-    .Call(`_covest_cov_est`, x, z, znew, h, cest_old, sumK_old, mx)
+    .Call('_covest_cov_est', PACKAGE = 'covest', x, z, znew, h, cest_old, sumK_old, mx)
 }
 
 .mean_est <- function(x, z, znew, h, mean_old, sumK_old) {
-    .Call(`_covest_mean_est`, x, z, znew, h, mean_old, sumK_old)
+    .Call('_covest_mean_est', PACKAGE = 'covest', x, z, znew, h, mean_old, sumK_old)
 }
 

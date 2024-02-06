@@ -4,7 +4,7 @@
 NumericMatrix cov_est(arma::mat x, NumericVector z, double znew, double h, arma::mat cest_old, double sumK_old, arma::mat mx){
   arma::uword p = x.n_cols, n = x.n_rows, i;
   arma::mat cest(p, p), xc;
-  arma::colvec K, sumK(p, arma::fill::value(NA_REAL));
+  arma::colvec K, sumK(p, NA_REAL);
 
   xc = x - mx;
   K = Rcpp::dnorm(z - znew, 0, h, false);
