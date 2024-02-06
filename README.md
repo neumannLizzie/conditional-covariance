@@ -367,6 +367,7 @@ p1 <- ggplot(df_p1, aes(x = factor(x), y = factor(y), fill = z)) +
 ``` r
 p1
 ```
+The following figure was created by estimating the conditional correlation using the bilinear mean and a global bandwidth of 2.5.
 
 <img src="figures/pressure-1.png" width="100%" />
 
