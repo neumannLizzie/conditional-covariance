@@ -37,7 +37,9 @@
 #' h <- 1.3
 #' cest_old <- matrix(0,ncol=3,nrow=3)
 #' sumK_old <- 0
-#' mx <- c(3.2,2.2,1.1)
+#' mx <- cbind(c(1.2,2.9,3.8),c(3.2,2.2,1.1))
+#' 
+#' covest::covest(x=x,z=z,znew=znew,h=h,cest_old=cest_old, sumK_old=sumK_old, mx=mx)
 #' }
 #' @export
 covest <- function(x, z, znew, h, cest_old, sumK_old, mx) {

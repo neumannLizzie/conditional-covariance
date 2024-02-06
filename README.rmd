@@ -282,7 +282,7 @@ for(ii in 1:pp){
     for (k in 1:length(zseq)){
       cest_old <- matrix(0, p, p)
       sumK_old <- 0
-      cestk <- covest::covest(x = as.matrix(x), z = as.matrix(z), znew = zseq[k],
+      cestk <- covest::covest(x = as.matrix(x), z = as.vector(z), znew = zseq[k],
                               h = h_c[ii,jj], cest_old = matrix(0,p,p), 
                               sumK_old = 0, mx=mx)
       cest[ii, jj, k] <- cestk[1, 2]
