@@ -47,7 +47,7 @@ You can then install the package via *devtools::install_github("neumannLizzie/co
 ## Load libraries
 
 ```{r load_oinstall_libraries}
-install.packages("librarian")
+#install.packages("librarian")
 ## also include the github repo for R-package "covest" hosted on github: neumannLizzie / conditional-covariance
 librarian::shelf(covest, dplyr, ggplot2, mgcv, patchwork, pracma, R.matlab, segmented, stats, tidyr, viridis, zoo)
 ```
@@ -60,7 +60,7 @@ The data set is freely available from https://zenodo.org/records/3745914, cf. [@
 > Depending on the operating system (Windows, Linux or MAC OS), choose one of the below chunks to download, unzip and read in the data.
 
 ### Windows
-```{r inreadData_windows, eval=FALSE}
+```{r inreadData_windows, eval=TRUE}
 ## download data file
 url <- "https://zenodo.org/records/3745914/files/trackedmodes.zip?download=1"
 path1 <- tempfile(fileext = ".zip")
@@ -78,7 +78,7 @@ unzip("trackedmodes.zip")
 list.import.mat <- R.matlab::readMat("trackedmodes/trackedmodes.mat")
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, eval=FALSE}
 list.import.mat <- R.matlab::readMat("trackedmodes/trackedmodes.mat")
 ```
 

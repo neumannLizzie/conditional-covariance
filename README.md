@@ -1,4 +1,7 @@
-# Estimation of the Conditional Mean, Covariance and Correlation of the Frequency Data from Railway Bridge KW51
+Estimation of the Conditional Mean, Covariance and Correlation of the
+Frequency Data from Railway Bridge KW51
+================
+true
 
 This code provides the estimation of the conditional covariance as
 presented in **“Confounder-adjusted Covariances of System Outputs and
@@ -38,16 +41,32 @@ via *devtools::install_github(“neumannLizzie/conditional-covariance”)*
 ## Load libraries
 
 ``` r
-install.packages("librarian")
-```
-
-    ## Installing package into '/home/pwitten/R/x86_64-pc-linux-gnu-library/4.2'
-    ## (as 'lib' is unspecified)
-
-``` r
+#install.packages("librarian")
 ## also include the github repo for R-package "covest" hosted on github: neumannLizzie / conditional-covariance
 librarian::shelf(covest, dplyr, ggplot2, mgcv, patchwork, pracma, R.matlab, segmented, stats, tidyr, viridis, zoo)
 ```
+
+    ## 
+    ##   The 'cran_repo' argument in shelf() was not set, so it will use
+    ##   cran_repo = 'https://cran.r-project.org' by default.
+    ## 
+    ##   To avoid this message, set the 'cran_repo' argument to a CRAN
+    ##   mirror URL (see https://cran.r-project.org/mirrors.html) or set
+    ##   'quiet = TRUE'.
+
+    ## Warning: Paket 'dplyr' wurde unter R Version 4.2.3 erstellt
+
+    ## Warning: Paket 'ggplot2' wurde unter R Version 4.2.3 erstellt
+
+    ## Warning: Paket 'patchwork' wurde unter R Version 4.2.3 erstellt
+
+    ## Warning: Paket 'pracma' wurde unter R Version 4.2.3 erstellt
+
+    ## Warning: Paket 'segmented' wurde unter R Version 4.2.3 erstellt
+
+    ## Warning: Paket 'viridisLite' wurde unter R Version 4.2.3 erstellt
+
+    ## Warning: Paket 'zoo' wurde unter R Version 4.2.3 erstellt
 
 ## Reading in the data
 
@@ -174,11 +193,11 @@ to estimate it. Cf. Section 2.3 in ([Neumann et al.
     ([2021](#ref-Maes.Lombaert_2021)) and Neumann et al.
     ([2024](#ref-Neumann.etal_2024)).
 
-2.  Penalized regression splines using mgcv ([Wood
+2.  Penalized regression splines using R package mgcv ([Wood
     2017](#ref-Wood_2017)), cf. Section 2.2 in ([Neumann et al.
     2024](#ref-Neumann.etal_2024)).
 
-3.  Local Polynomial Regression using stats ([R Core Team
+3.  Local Polynomial Regression using R package stats ([R Core Team
     2023](#ref-R_2023)), cf. ([Neumann et al.
     2024](#ref-Neumann.etal_2024)).
 
@@ -187,8 +206,8 @@ to estimate it. Cf. Section 2.3 in ([Neumann et al.
     ([2010](#ref-Yin.etal_2010)).
 
 > \[!IMPORTANT\]  
-> Using method 4. requires specification of bandwidths h_m per mode. You can
-> try out different ones.
+> Using method 4. requires specification of bandwidths h_m per mode. You
+> can try out different ones.
 
 ``` r
 ## 1. estimate bilinear mean using segmented
@@ -250,6 +269,7 @@ each mode pair. In each column and row, we have the order mode: 3, 5, 6,
 ``` r
 ## global:
 h_c <- matrix(2.5, nrow = 8, ncol = 8)
+
 ## pairwise:
 h_c <- rbind(c(2.5,2.2,2.1,1.9,1.6,2.5,2.4,2.2),
              c(NA,2.6,1.5,1.8,2.5,1.9,2.1,2.3),
@@ -367,9 +387,11 @@ p1 <- ggplot(df_p1, aes(x = factor(x), y = factor(y), fill = z)) +
 ``` r
 p1
 ```
-The following figure was created by estimating the conditional correlation using the bilinear mean and a global bandwidth of 2.5.
 
-<img src="figures/pressure-1.png" width="100%" />
+<img src="README_files/figure-gfm/pressure-1.png" width="100%" />
+
+The following figure was created by estimating the conditional
+correlation using the bilinear mean and a global bandwidth of 2.5.
 
 <!-- ![](figures/pressure-1.png) -->
 
@@ -404,7 +426,7 @@ News* 8 (1): 20–25.
 <div id="ref-Neumann.etal_2024" class="csl-entry">
 
 Neumann, L., P. Wittenberg, A. Mendler, and J. Gertheiss. 2024.
-“[Confounder-Adjusted Covariances of Sensor Outputs and Applications to
+“[Confounder-Adjusted Covariances of System Outputs and Applications to
 Structural Health Monitoring]().” *Preprint, Submitted*, 1–26.
 
 </div>
