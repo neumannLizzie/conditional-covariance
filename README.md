@@ -251,7 +251,14 @@ each mode pair. In each column and row, we have the order mode: 3, 5, 6,
 ## global:
 h_c <- matrix(2.5, nrow = 8, ncol = 8)
 ## pairwise:
-h_c[lower.tri(h_c)] <- NA
+h_c <- rbind(c(2.5,2.2,2.1,1.9,1.6,2.5,2.4,2.2),
+             c(NA,2.6,1.5,1.8,2.5,1.9,2.1,2.3),
+             c(rep(NA,2),2.1,1.3,2.2,2.3,2.4,2.5),
+             c(rep(NA,3),1.5,2.3,2.4,2.2,1.7),
+             c(rep(NA,4),2.3,1.8,2.3,2.5),
+             c(rep(NA,5),1.8,2.0,2.2),
+             c(rep(NA,6),2.1,1.9),
+             c(rep(NA,7),2.3))
 ```
 
 ## Estimation of the Conditional Covariance and Correlation
