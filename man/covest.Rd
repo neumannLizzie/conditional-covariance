@@ -7,19 +7,15 @@
 covest(x, z, znew, h, cest_old, sumK_old, mx)
 }
 \arguments{
-\item{x}{Numeric Matrix. An \R function of a discrete univariate Cumulative
-Distribution Function taking a numeric first argument and returning a
-numeric vector of the same length. For example, \code{\link{pbinom}} for
-the Binomial or \code{\link{ppois}} for the Poisson distribution. See
-\link{Distributions} for other standard distributions.}
+\item{x}{Numeric Matrix. An nxp matrix containing the data (of, e.g., sensor 
+measurements or features) where the columns refer to p different sensors and 
+n is the number of observations.}
 
-\item{z}{Numeric. Enumerator of rational approximation of reference value
-\code{k}.}
+\item{z}{Numeric Vector. Containing the measured confounder (e.g., temperature).}
 
-\item{znew}{Integer. Enumerator of rational approximation of control limit
-value \code{h}.}
+\item{znew}{Integer. The value for which the conditional covariance is to be estimated.}
 
-\item{h}{Numeric. Denominator of rational approximation of reference value.}
+\item{h}{Numeric. The bandwidths, i.e. the smoothing parameter.}
 
 \item{cest_old}{Numeric Matrix. Randomization probability. If the CUSUM statistic is
 equal to the threshold \code{h}, an control chart alarm is triggered with
@@ -32,12 +28,13 @@ continuous ARL control.}
 Should be an element of \code{0:hm}.}
 }
 \value{
-Returns a matrix with ncol(x) rows and ncol(x)+1 columns. 
-The first row of the ncol(x)+1 column contains the sum of the kernel (sumK).
-The first ncol(x) colums x ncol(x) rows are the covariance matrix at value znew.
+Returns a matrix with p rows and p+1 columns. 
+The first row of the p+1 column contains the sum of the kernel (sumK).
+The first pxp matrix is the covariance matrix at value znew.
 }
 \description{
-Estimation of the conditional covariance.
+Estimation of the conditional covariance using a Nadaraya-Watson 
+type kernel estimatior.
 }
 \details{
 TODO: Equations how the cond cov is implemented

@@ -35,7 +35,7 @@ Should be an element of \code{0:hm}.}
 Returns a single value which is the Average Run Length.
 }
 \description{
-Estimation of the conditional mean.
+Estimation of the conditional mean using a Nadaraya-Watson type kernel estimatior.
 }
 \details{
 TODO: Equations how the CUSUMs are implemented

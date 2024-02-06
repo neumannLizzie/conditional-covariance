@@ -1,16 +1,13 @@
 #' @name covest
 #' @title Nadaraya-Watson type kernel estimation of the conditional covariance
-#' @description Estimation of the conditional covariance.
-#' @param x Numeric Matrix. An \R function of a discrete univariate Cumulative
-#'  Distribution Function taking a numeric first argument and returning a
-#'  numeric vector of the same length. For example, \code{\link{pbinom}} for
-#'  the Binomial or \code{\link{ppois}} for the Poisson distribution. See
-#'  \link{Distributions} for other standard distributions.
-#' @param z Numeric. Enumerator of rational approximation of reference value
-#' \code{k}.
-#' @param znew Integer. Enumerator of rational approximation of control limit
-#' value \code{h}.
-#' @param h Numeric. Denominator of rational approximation of reference value.
+#' @description Estimation of the conditional covariance using a Nadaraya-Watson 
+#' type kernel estimatior.
+#' @param x Numeric Matrix. An nxp matrix containing the data (of, e.g., sensor 
+#' measurements or features) where the columns refer to p different sensors and 
+#' n is the number of observations. 
+#' @param z Numeric Vector. Containing the measured confounder (e.g., temperature).
+#' @param znew Integer. The value for which the conditional covariance is to be estimated.
+#' @param h Numeric. The bandwidths, i.e. the smoothing parameter.
 #' @param cest_old Numeric Matrix. Randomization probability. If the CUSUM statistic is
 #' equal to the threshold \code{h}, an control chart alarm is triggered with
 #' probability \code{gamma}.
@@ -18,9 +15,9 @@
 #' continuous ARL control.
 #' @param mx Numeric Matrix. Head start value as integer multiple of \code{1/m}.
 #' Should be an element of \code{0:hm}.
-#' @return Returns a matrix with ncol(x) rows and ncol(x)+1 columns. 
-#' The first row of the ncol(x)+1 column contains the sum of the kernel (sumK).
-#' The first ncol(x) colums x ncol(x) rows are the covariance matrix at value znew.
+#' @return Returns a matrix with p rows and p+1 columns. 
+#' The first row of the p+1 column contains the sum of the kernel (sumK).
+#' The first pxp matrix is the covariance matrix at value znew.
 #' @details TODO: Equations how the cond cov is implemented
 #' @author Lizzie Neumann
 #' @references Neumann et al. (2024).
@@ -57,7 +54,7 @@ covest <- function(x, z, znew, h, cest_old, sumK_old, mx) {
 
 #' @name meanest
 #' @title Nadaraya-Watson type kernel estimation of the conditional mean
-#' @description Estimation of the conditional mean.
+#' @description Estimation of the conditional mean using a Nadaraya-Watson type kernel estimatior.
 #' @param x Numreic Matrix An \R function of a discrete univariate Cumulative
 #'  Distribution Function taking a numeric first argument and returning a
 #'  numeric vector of the same length. For example, \code{\link{pbinom}} for
