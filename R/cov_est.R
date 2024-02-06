@@ -23,7 +23,8 @@
 #' @author Lizzie Neumann
 #' @references Neumann et al. (2024).
 #'  Confounder-adjusted Covariances of System Outputs and Applications to Structural Health Monitoring.
-#'  \emph{PREPRINT}, \strong{XX}, pp. 1--26. 
+#'  \emph{PREPRINT}, \strong{XX}, pp. 1--26.
+#'
 #'  Yin et al. (2010).
 #'  Nonparametric Covariance Model. \emph{Statistica Sinica} \strong{20}, 469-–79.
 #' @examples
