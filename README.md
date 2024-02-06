@@ -187,7 +187,7 @@ to estimate it. Cf. Section 2.3 in ([Neumann et al.
     ([2010](#ref-Yin.etal_2010)).
 
 > \[!IMPORTANT\]  
-> Using method 4. requires specification of bandwidths per mode. You can
+> Using method 4. requires specification of bandwidths h_m per mode. You can
 > try out different ones.
 
 ``` r
