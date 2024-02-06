@@ -1,6 +1,6 @@
 #' @name covest
-#' @title Zero-state ARL of discrete CUSUM charts
-#' @description Compute the ARL of CUSUM.
+#' @title Nadaraya-Watson type kernel estimation of the conditional covariance
+#' @description Estimation of the conditional covariance.
 #' @param x Numeric Matrix. An \R function of a discrete univariate Cumulative
 #'  Distribution Function taking a numeric first argument and returning a
 #'  numeric vector of the same length. For example, \code{\link{pbinom}} for
@@ -21,9 +21,11 @@
 #' @return Returns a single value which is the Average Run Length.
 #' @details TODO: Equations how the CUSUMs are implemented
 #' @author Lizzie Neumann
-#' @references Brook and Evans (1972).
-#'  An approach to the probability distribution of CUSUM run length.
-#'  \emph{Biometrika}, \strong{59}, pp. 539--549
+#' @references Neumann et al. (2024).
+#'  Confounder-adjusted Covariances of System Outputs and Applications to Structural Health Monitoring.
+#'  \emph{PREPRINT}, \strong{XX}, pp. 1--26. 
+#'  Yin et al. (2010).
+#'  Nonparametric Covariance Model. \emph{Statistica Sinica} \strong{20}, 469-–79.
 #' @examples
 #' \dontrun{
 #' A   <- 500

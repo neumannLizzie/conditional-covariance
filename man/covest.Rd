@@ -2,7 +2,7 @@
 % Please edit documentation in R/cov_est.R
 \name{covest}
 \alias{covest}
-\title{Zero-state ARL of discrete CUSUM charts}
+\title{Nadaraya-Watson type kernel estimation of the conditional covariance}
 \usage{
 covest(x, z, znew, h, cest_old, sumK_old, mx)
 }
@@ -35,7 +35,7 @@ Should be an element of \code{0:hm}.}
 Returns a single value which is the Average Run Length.
 }
 \description{
-Compute the ARL of CUSUM.
+Estimation of the conditional covariance.
 }
 \details{
 TODO: Equations how the CUSUMs are implemented
@@ -61,9 +61,11 @@ bicusum_discrete_arl(CDF, km1, km2, res1$hm1, res1$hm2, m)
 }
 }
 \references{
-Brook and Evans (1972).
- An approach to the probability distribution of CUSUM run length.
- \emph{Biometrika}, \strong{59}, pp. 539--549
+Neumann et al. (2024).
+ Confounder-adjusted Covariances of System Outputs and Applications to Structural Health Monitoring.
+ \emph{PREPRINT}, \strong{XX}, pp. 1--26. 
+ Yin et al. (2010).
+ Nonparametric Covariance Model. \emph{Statistica Sinica} \strong{20}, 469-–79.
 }
 \author{
 Lizzie Neumann
