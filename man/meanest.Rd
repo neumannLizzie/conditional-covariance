@@ -42,22 +42,14 @@ TODO: Equations how the CUSUMs are implemented
 }
 \examples{
 \dontrun{
-A   <- 500
-mu0 <- 1
-m   <- 20
-km1 <- 1.3*m
-km2 <- 2.2*m
-CDF <- function(q) ppois(q, lambda=mu0)
-## calibrate Bi-CUSUM
-res1 <- bicusum_discrete_crit(CDF, mu0, A, km1, km2, m)
-## ARLs of single CUSUM
-C1 <- cusum_discrete_arl(CDF, km1, res1$hm1, m, gamma=res1$g1, rando=TRUE)
-C2 <- cusum_discrete_arl(CDF, km2, res1$hm2, m, gamma=res1$g2, rando=TRUE)
-## ARL of Bi-CUSUM with randomization
-CC <- bicusum_discrete_arl(CDF, km1, km2, res1$hm1, res1$hm2, m, rando=TRUE, g1=res1$g1, g2=res1$g2)
-cbind(round(cbind(C1, C2, CC), 3))
-## ARL of Bi-CUSUM without randomization
-bicusum_discrete_arl(CDF, km1, km2, res1$hm1, res1$hm2, m)
+x <- cbind(c(1,3,5),c(3,2,6),c(4,1,5))
+z <- c(5.1,3.1,4.3)
+znew   <- 3.2
+h <- 1.3
+mean_old <- rep(0,3)
+sumK_old <- 0
+
+covest::meanest(x=x,z=z,znew=znew,h=h,mean_old=cest_mean_oldold, sumK_old=sumK_old)
 }
 }
 \references{
