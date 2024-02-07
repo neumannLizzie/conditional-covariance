@@ -7,38 +7,37 @@
 meanest(x, z, znew, h, mean_old, sumK_old)
 }
 \arguments{
-\item{x}{Numreic Matrix An \R function of a discrete univariate Cumulative
-Distribution Function taking a numeric first argument and returning a
-numeric vector of the same length. For example, \code{\link{pbinom}} for
-the Binomial or \code{\link{ppois}} for the Poisson distribution. See
-\link{Distributions} for other standard distributions.}
+\item{x}{Numeric Matrix. An nxp matrix containing the data (of, e.g., sensor 
+measurements or features) where the columns refer to p different sensors and 
+n is the number of observations.}
 
-\item{z}{Numeric Vector. Enumerator of rational approximation of reference value
-\code{k}.}
+\item{z}{Numeric Vector. Containing the measured confounder (e.g., temperature).}
 
-\item{znew}{Numeric. Enumerator of rational approximation of control limit
-value \code{h}.}
+\item{znew}{Integer. The value for which the conditional covariance is to be estimated.}
 
-\item{h}{Numeric. Denominator of rational approximation of reference value.}
+\item{h}{Numeric. The bandwidths, i.e. the smoothing parameter.}
 
-\item{mean_old}{Numeric. Randomization probability. If the CUSUM statistic is
-equal to the threshold \code{h}, an control chart alarm is triggered with
-probability \code{gamma}.}
+\item{mean_old}{Numeric Vector. A 1xp vector, containing the conditional mean at value znew.
+Only not zero if the data set is split and the conditional mean is estimated 
+and updated piece by piece or new data is added.}
 
-\item{sumK_old}{Boolean. Switch for activating randomization in order to allow
-continuous ARL control.}
-
-\item{mx}{Integer. Head start value as integer multiple of \code{1/m}.
-Should be an element of \code{0:hm}.}
+\item{sumK_old}{Numeric. The sum of kernels. Only not zero if the data set is 
+split and the conditional mean is estimated and updated piece by piece or new data is added.}
 }
 \value{
-Returns a single value which is the Average Run Length.
+Returns a matrix where the first column contains the conditional mean 
+at value znew and the first element in the second column is the sum of kernels (sumK).
 }
 \description{
 Estimation of the conditional mean using a Nadaraya-Watson type kernel estimatior.
 }
 \details{
-TODO: Equations how the CUSUMs are implemented
+The used kernel is the Gaussian kernel which equals a normal density with
+mean 0 and chosen bandwidth h. 
+K = dnorm(z - znew, 0, h, false)
+
+The conditional mean is estimated as follows
+mest = (K*t(x) + sumK_old*mean_old) / (sum(K) + sumK_old).
 }
 \examples{
 \dontrun{

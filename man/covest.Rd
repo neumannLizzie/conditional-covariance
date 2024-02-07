@@ -17,27 +17,33 @@ n is the number of observations.}
 
 \item{h}{Numeric. The bandwidths, i.e. the smoothing parameter.}
 
-\item{cest_old}{Numeric Matrix. Randomization probability. If the CUSUM statistic is
-equal to the threshold \code{h}, an control chart alarm is triggered with
-probability \code{gamma}.}
+\item{cest_old}{Numeric Matrix. The conditional covariance at value znew.
+Only not zero if the data set is split and the conditional covariance is estimated 
+and updated piece by piece or new data is added.}
 
-\item{sumK_old}{Numeric. Switch for activating randomization in order to allow
-continuous ARL control.}
+\item{sumK_old}{Numeric. Sum of kernels. Only not zero if the data set is split 
+and the conditional covariance is estimated and updated piece by piece or new data is added.}
 
-\item{mx}{Numeric Matrix. Head start value as integer multiple of \code{1/m}.
-Should be an element of \code{0:hm}.}
+\item{mx}{Numeric Matrix. The estimated conditional mean, a nxp matrix where
+each row contains the conditional mean for each value of z.}
 }
 \value{
 Returns a matrix with p rows and p+1 columns. 
-The first row of the p+1 column contains the sum of the kernel (sumK).
-The first pxp matrix is the covariance matrix at value znew.
+The pxp matrix is the covariance matrix at value znew.
+The first element of the p+1 column contains the sum of the kernel (sumK).
 }
 \description{
 Estimation of the conditional covariance using a Nadaraya-Watson 
 type kernel estimatior.
 }
 \details{
-TODO: Equations how the cond cov is implemented
+The used kernel is the Gaussian kernel which equals a normal density with
+mean 0 and chosen bandwidth h. 
+K = dnorm(z - znew, 0, h, false)
+
+The conditional covariance is estimated as follows
+cest = (K*t(x - mx)*(x - mx)  + sumK_old*cest_old) / (sum(K) + sumK_old) where
+mx is the conditional mean estimated using, e.g., meanest.
 }
 \examples{
 \dontrun{

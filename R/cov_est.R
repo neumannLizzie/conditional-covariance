@@ -8,17 +8,23 @@
 #' @param z Numeric Vector. Containing the measured confounder (e.g., temperature).
 #' @param znew Integer. The value for which the conditional covariance is to be estimated.
 #' @param h Numeric. The bandwidths, i.e. the smoothing parameter.
-#' @param cest_old Numeric Matrix. Randomization probability. If the CUSUM statistic is
-#' equal to the threshold \code{h}, an control chart alarm is triggered with
-#' probability \code{gamma}.
-#' @param sumK_old Numeric. Switch for activating randomization in order to allow
-#' continuous ARL control.
-#' @param mx Numeric Matrix. Head start value as integer multiple of \code{1/m}.
-#' Should be an element of \code{0:hm}.
+#' @param cest_old Numeric Matrix. The conditional covariance at value znew.
+#' Only not zero if the data set is split and the conditional covariance is estimated 
+#' and updated piece by piece or new data is added.
+#' @param sumK_old Numeric. Sum of kernels. Only not zero if the data set is split 
+#' and the conditional covariance is estimated and updated piece by piece or new data is added.
+#' @param mx Numeric Matrix. The estimated conditional mean, a nxp matrix where
+#' each row contains the conditional mean for each value of z.
 #' @return Returns a matrix with p rows and p+1 columns. 
-#' The first row of the p+1 column contains the sum of the kernel (sumK).
-#' The first pxp matrix is the covariance matrix at value znew.
-#' @details TODO: Equations how the cond cov is implemented
+#' The pxp matrix is the covariance matrix at value znew.
+#' The first element of the p+1 column contains the sum of the kernel (sumK).
+#' @details The used kernel is the Gaussian kernel which equals a normal density with
+#' mean 0 and chosen bandwidth h. 
+#' K = dnorm(z - znew, 0, h, false)
+#' 
+#' The conditional covariance is estimated as follows
+#' cest = (K*t(x - mx)*(x - mx)  + sumK_old*cest_old) / (sum(K) + sumK_old) where
+#' mx is the conditional mean estimated using, e.g., meanest.
 #' @author Lizzie Neumann
 #' @references Neumann et al. (2024).
 #'  Confounder-adjusted Covariances of System Outputs and Applications to Structural Health Monitoring.
@@ -55,25 +61,25 @@ covest <- function(x, z, znew, h, cest_old, sumK_old, mx) {
 #' @name meanest
 #' @title Nadaraya-Watson type kernel estimation of the conditional mean
 #' @description Estimation of the conditional mean using a Nadaraya-Watson type kernel estimatior.
-#' @param x Numreic Matrix An \R function of a discrete univariate Cumulative
-#'  Distribution Function taking a numeric first argument and returning a
-#'  numeric vector of the same length. For example, \code{\link{pbinom}} for
-#'  the Binomial or \code{\link{ppois}} for the Poisson distribution. See
-#'  \link{Distributions} for other standard distributions.
-#' @param z Numeric Vector. Enumerator of rational approximation of reference value
-#' \code{k}.
-#' @param znew Numeric. Enumerator of rational approximation of control limit
-#' value \code{h}.
-#' @param h Numeric. Denominator of rational approximation of reference value.
-#' @param mean_old Numeric. Randomization probability. If the CUSUM statistic is
-#' equal to the threshold \code{h}, an control chart alarm is triggered with
-#' probability \code{gamma}.
-#' @param sumK_old Boolean. Switch for activating randomization in order to allow
-#' continuous ARL control.
-#' @param mx Integer. Head start value as integer multiple of \code{1/m}.
-#' Should be an element of \code{0:hm}.
-#' @return Returns a single value which is the Average Run Length.
-#' @details TODO: Equations how the CUSUMs are implemented
+#' @param x Numeric Matrix. An nxp matrix containing the data (of, e.g., sensor 
+#' measurements or features) where the columns refer to p different sensors and 
+#' n is the number of observations. 
+#' @param z Numeric Vector. Containing the measured confounder (e.g., temperature).
+#' @param znew Integer. The value for which the conditional covariance is to be estimated.
+#' @param h Numeric. The bandwidths, i.e. the smoothing parameter.
+#' @param mean_old Numeric Vector. A 1xp vector, containing the conditional mean at value znew.
+#' Only not zero if the data set is split and the conditional mean is estimated 
+#' and updated piece by piece or new data is added.
+#' @param sumK_old Numeric. The sum of kernels. Only not zero if the data set is 
+#' split and the conditional mean is estimated and updated piece by piece or new data is added.
+#' @return Returns a matrix where the first column contains the conditional mean 
+#' at value znew and the first element in the second column is the sum of kernels (sumK).
+#' @details The used kernel is the Gaussian kernel which equals a normal density with
+#' mean 0 and chosen bandwidth h. 
+#' K = dnorm(z - znew, 0, h, false)
+#' 
+#' The conditional mean is estimated as follows
+#' mest = (K*t(x) + sumK_old*mean_old) / (sum(K) + sumK_old).
 #' @author Lizzie Neumann
 #' @references Neumann et al. (2024).
 #'  Confounder-adjusted Covariances of System Outputs and Applications to Structural Health Monitoring.

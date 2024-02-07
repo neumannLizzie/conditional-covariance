@@ -23,7 +23,7 @@ NumericMatrix mean_est(arma::mat x, NumericVector z, double znew, double h, Nume
 
   K = Rcpp::dnorm(z - znew, 0, h, false);
   for (i=0; i<n; i++) mx += K[i]*x.row(i).t();
-  mx += mean_old*sumK_old;
+  mx += sumK_old*mean_old;
   mx /= sum(K)+sumK_old;
 
   sumK.row(0) = sum(K);
