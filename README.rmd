@@ -34,13 +34,17 @@ Contact for questions: Lizzie Neumann, neumannl(at)hsu-hh.de
 
 ## The covest R-package
 
-Describe what the R-package is for and what it does. Provide installation instructions.
+<!--Describe what the R-package is for and what it does. Provide installation instructions. -->
+
+The covest package contains the implementation for the estimation of the conditional
+mean and covariance using a Nadaraya-Watson kernel based estimator. 
 
 The package compiles C++ source code during installation, therefore you need the appropriate compilers:
 
 On _Windows_ you need [Rtools](https://cran.r-project.org/bin/windows/Rtools/) available from CRAN. 
 
 On _macOS_ you need the Clang 6.x compiler and the GNU Fortran compiler from [macOS tools](https://cran.r-project.org/bin/macosx/tools/).
+
 Having installed the compilers, you need to open a terminal and start R via 'PATH=/usr/local/clang6/bin:$PATH R'. 
 You can then install the package via *devtools::install_github("neumannLizzie/conditional-covariance")*
 
