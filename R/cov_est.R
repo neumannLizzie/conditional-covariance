@@ -65,7 +65,7 @@ covest <- function(x, z, znew, h, cest_old, sumK_old, mx) {
 #' measurements or features) where the columns refer to p different sensors and
 #' n is the number of observations.
 #' @param z Numeric Vector. Containing the measured confounder (e.g., temperature).
-#' @param znew Integer. The value for which the conditional covariance is to be estimated.
+#' @param znew Numeric. The value for which the conditional covariance is to be estimated.
 #' @param h Numeric. The bandwidths, i.e. the smoothing parameter.
 #' @param mean_old Numeric Vector. A 1xp vector, containing the conditional mean at value znew.
 #' Only not zero if the data set is split and the conditional mean is estimated
