@@ -1,14 +1,16 @@
 ---
-title: "Estimation of the Conditional Mean, Covariance and Correlation of the 
-Frequency Data from Railway Bridge KW51"
-author:
-  - name: Lizzie Neumann
-    affiliation: Helmut-Schmidt-University
+# title: "Estimation of the Conditional Mean, Covariance and Correlation of the 
+# Frequency Data from Railway Bridge KW51"
+# author:
+#   - name: Lizzie Neumann
+#     affiliation: Helmut-Schmidt-University
 bibliography:
   - literature.bib
 link-citations: true
 output: github_document
 ---
+
+# "Estimation of the Conditional Mean, Covariance and Correlation of the Frequency Data from Railway Bridge KW51"
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -50,7 +52,7 @@ You can then install the package via *devtools::install_github("neumannLizzie/co
 
 ## Load libraries
 
-```{r load_oinstall_libraries}
+```{r load_oinstall_libraries, warning = FALSE, messages = FALSE}
 #install.packages("librarian")
 ## also include the github repo for R-package "covest" hosted on github: neumannLizzie / conditional-covariance
 librarian::shelf(covest, dplyr, ggplot2, mgcv, patchwork, pracma, R.matlab, segmented, stats, tidyr, viridis, zoo)
@@ -351,7 +353,7 @@ p1 <- ggplot(df_p1, aes(x = factor(x), y = factor(y), fill = z)) +
 p1
 ```
 
-The following figure was created by estimating the conditional correlation using the bilinear mean and a global bandwidth of 2.5.
+<!-- The following figure was created by estimating the conditional correlation using the bilinear mean and a global bandwidth of 2.5.-->
 
 <!-- ![](figures/pressure-1.png) -->
 ## References

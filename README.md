@@ -1,7 +1,5 @@
-Estimation of the Conditional Mean, Covariance and Correlation of the
-Frequency Data from Railway Bridge KW51
-================
-true
+
+# “Estimation of the Conditional Mean, Covariance and Correlation of the Frequency Data from Railway Bridge KW51”
 
 This code provides the estimation of the conditional covariance as
 presented in **“Confounder-adjusted Covariances of System Outputs and
@@ -22,8 +20,11 @@ Contact for questions: Lizzie Neumann, neumannl(at)hsu-hh.de
 
 ## The covest R-package
 
-Describe what the R-package is for and what it does. Provide
-installation instructions.
+<!--Describe what the R-package is for and what it does. Provide installation instructions. -->
+
+The covest package contains the implementation for the estimation of the
+conditional mean and covariance using a Nadaraya-Watson kernel based
+estimator.
 
 The package compiles C++ source code during installation, therefore you
 need the appropriate compilers:
@@ -33,10 +34,12 @@ On *Windows* you need
 CRAN.
 
 On *macOS* you need the Clang 6.x compiler and the GNU Fortran compiler
-from [macOS tools](https://cran.r-project.org/bin/macosx/tools/). Having
-installed the compilers, you need to open a terminal and start R via
-‘PATH=/usr/local/clang6/bin:\$PATH R’. You can then install the package
-via *devtools::install_github(“neumannLizzie/conditional-covariance”)*
+from [macOS tools](https://cran.r-project.org/bin/macosx/tools/).
+
+Having installed the compilers, you need to open a terminal and start R
+via ‘PATH=/usr/local/clang6/bin:\$PATH R’. You can then install the
+package via
+*devtools::install_github(“neumannLizzie/conditional-covariance”)*
 
 ## Load libraries
 
@@ -53,20 +56,6 @@ librarian::shelf(covest, dplyr, ggplot2, mgcv, patchwork, pracma, R.matlab, segm
     ##   To avoid this message, set the 'cran_repo' argument to a CRAN
     ##   mirror URL (see https://cran.r-project.org/mirrors.html) or set
     ##   'quiet = TRUE'.
-
-    ## Warning: Paket 'dplyr' wurde unter R Version 4.2.3 erstellt
-
-    ## Warning: Paket 'ggplot2' wurde unter R Version 4.2.3 erstellt
-
-    ## Warning: Paket 'patchwork' wurde unter R Version 4.2.3 erstellt
-
-    ## Warning: Paket 'pracma' wurde unter R Version 4.2.3 erstellt
-
-    ## Warning: Paket 'segmented' wurde unter R Version 4.2.3 erstellt
-
-    ## Warning: Paket 'viridisLite' wurde unter R Version 4.2.3 erstellt
-
-    ## Warning: Paket 'zoo' wurde unter R Version 4.2.3 erstellt
 
 ## Reading in the data
 
@@ -323,7 +312,7 @@ for(ii in 1:pp){
     for (k in 1:length(zseq)){
       cest_old <- matrix(0, p, p)
       sumK_old <- 0
-      cestk <- covest::covest(x = as.matrix(x), z = as.matrix(z), znew = zseq[k],
+      cestk <- covest::covest(x = as.matrix(x), z = as.vector(z), znew = zseq[k],
                               h = h_c[ii,jj], cest_old = matrix(0,p,p), 
                               sumK_old = 0, mx=mx)
       cest[ii, jj, k] <- cestk[1, 2]
@@ -390,9 +379,7 @@ p1
 
 <img src="README_files/figure-gfm/pressure-1.png" width="100%" />
 
-The following figure was created by estimating the conditional
-correlation using the bilinear mean and a global bandwidth of 2.5.
-
+<!-- The following figure was created by estimating the conditional correlation using the bilinear mean and a global bandwidth of 2.5.-->
 <!-- ![](figures/pressure-1.png) -->
 
 ## References

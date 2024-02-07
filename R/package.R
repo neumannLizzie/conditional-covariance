@@ -1,6 +1,9 @@
-#' Variable Life Adjusted Display and Other Risk-Adjusted Quality Control Charts
+#' Nadaraya-Watson type kernel estimation of the conditional mean and covariance
 #'
-#' Contains functions to set up risk-adjusted quality control charts in health care. For the
+#' Contains functions to estimate the conditional mean and covariance using a 
+#' Nadaraya-Watson kernel based estimator. 
+#' 
+#' For the
 #' variable life adjusted display (VLAD) proposed by Lovegrove et al. (1997)
 #' <doi:10.1016/S0140-6736(97)06507-0> signaling rules derived in Wittenberg et al. (2018)
 #'  <doi:10.1002/sim.7647> are implemented. Additionally, for the risk-adjusted cumulative sum
