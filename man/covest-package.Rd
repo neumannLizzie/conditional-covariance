@@ -3,16 +3,22 @@
 \docType{package}
 \name{covest-package}
 \alias{covest-package}
-\title{Variable Life Adjusted Display and Other Risk-Adjusted Quality Control Charts}
+\title{Nadaraya-Watson type kernel estimation of the conditional mean and covariance}
 \description{
-Contains functions to set up risk-adjusted quality control charts in health care. For the
-variable life adjusted display (VLAD) proposed by Lovegrove et al. (1997)
-<doi:10.1016/S0140-6736(97)06507-0> signaling rules derived in Wittenberg et al. (2018)
- <doi:10.1002/sim.7647> are implemented. Additionally, for the risk-adjusted cumulative sum
- chart based on log-likelihood ratio statistic introduced by Steiner et al. (2000)
- <doi:10.1093/biostatistics/1.4.441> average run length and control limits  can be computed with
-  fast and accurate Markov chain approximations developed in Knoth et al. (2019)
-  <doi:10.1002/sim.8104>.
+Contains functions to estimate the conditional mean and covariance using a 
+Nadaraya-Watson kernel based estimator. This package contains the 
+Nadaraya-Watson kernel-based estimator for the conditional mean and covariance 
+presented in Yin et al. (2010) and Neumann et al. (2024) which can be used to 
+condition the mean or covariance between system outputs on confounders, e.g. 
+temperature.
+}
+\details{
+Neumann et al. (2024).
+ Confounder-adjusted Covariances of System Outputs and Applications to Structural Health Monitoring.
+ \emph{PREPRINT}, \strong{XX}, pp. 1--26.
+
+ Yin et al. (2010).
+ Nonparametric Covariance Model. \emph{Statistica Sinica} \strong{20}, 469-–79.
 }
 \seealso{
 Useful links:
@@ -23,11 +29,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Philipp Wittenberg \email{pwitten@hsu-hh.de} (\href{https://orcid.org/0000-0001-7151-8243}{ORCID})
+\strong{Maintainer}: Lizzie Neumann \email{<neumannl@hsu-hh.de>} (\href{https://orcid.org/0000-0003-2256-1127}{ORCID})
 
 Authors:
 \itemize{
-  \item Lizzie Neumann \email{<neumannl@hsu-hh.de>} (\href{https://orcid.org/0000-0003-2256-1127}{ORCID})
+  \item Philipp Wittenberg \email{pwitten@hsu-hh.de} (\href{https://orcid.org/0000-0001-7151-8243}{ORCID})
 }
 
 }

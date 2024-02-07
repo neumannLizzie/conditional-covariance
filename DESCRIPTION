@@ -5,11 +5,11 @@ Version: 0.1.0
 Authors@R: c(
             person("Lizzie", "Neumann", 
             email = "<neumannl@hsu-hh.de>", 
-            role = c("aut"),
+            role = c("aut", "cre"),
             comment = c(ORCID = "0000-0003-2256-1127")),
             person("Philipp", "Wittenberg", 
             email = "pwitten@hsu-hh.de", 
-            role = c("aut", "cre"),
+            role = c("aut"),
             comment = c(ORCID = "0000-0001-7151-8243")))
 Maintainer: Lizzie Neumann <neumannl@hsu-hh.de>
 Description: This package contains two functions, "meanest" to estimate the conditional mean and "covest" to estimate the conditional covariance using a Nadaraya-Watson kernel type estimator. The conditional mean and covariance is a function in the given/specific confounder and is estimated at a given value. Both functions need a selected bandwidth for smoothing, i.e. the higher the bandwidth the wider the kernel and the smoother the estimated mean or covariance function. 

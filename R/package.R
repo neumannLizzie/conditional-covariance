@@ -1,16 +1,19 @@
 #' Nadaraya-Watson type kernel estimation of the conditional mean and covariance
 #'
 #' Contains functions to estimate the conditional mean and covariance using a 
-#' Nadaraya-Watson kernel based estimator. 
+#' Nadaraya-Watson kernel based estimator. This package contains the 
+#' Nadaraya-Watson kernel-based estimator for the conditional mean and covariance 
+#' presented in Yin et al. (2010) and Neumann et al. (2024) which can be used to 
+#' condition the mean or covariance between system outputs on confounders, e.g. 
+#' temperature.
 #' 
-#' For the
-#' variable life adjusted display (VLAD) proposed by Lovegrove et al. (1997)
-#' <doi:10.1016/S0140-6736(97)06507-0> signaling rules derived in Wittenberg et al. (2018)
-#'  <doi:10.1002/sim.7647> are implemented. Additionally, for the risk-adjusted cumulative sum
-#'  chart based on log-likelihood ratio statistic introduced by Steiner et al. (2000)
-#'  <doi:10.1093/biostatistics/1.4.441> average run length and control limits  can be computed with
-#'   fast and accurate Markov chain approximations developed in Knoth et al. (2019)
-#'   <doi:10.1002/sim.8104>.
+#'  Neumann et al. (2024).
+#'  Confounder-adjusted Covariances of System Outputs and Applications to Structural Health Monitoring.
+#'  \emph{PREPRINT}, \strong{XX}, pp. 1--26.
+#'
+#'  Yin et al. (2010).
+#'  Nonparametric Covariance Model. \emph{Statistica Sinica} \strong{20}, 469-–79.
+#' 
 #' @docType package
 #' @importFrom Rcpp evalCpp
 #' @useDynLib covest, .registration = TRUE
