@@ -14,3 +14,20 @@ variable life adjusted display (VLAD) proposed by Lovegrove et al. (1997)
   fast and accurate Markov chain approximations developed in Knoth et al. (2019)
   <doi:10.1002/sim.8104>.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/neumannLizzie/conditional-covariance}
+  \item Report bugs at \url{https://github.com/neumannLizzie/conditional-covariance/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Philipp Wittenberg \email{pwitten@hsu-hh.de} (\href{https://orcid.org/0000-0001-7151-8243}{ORCID})
+
+Authors:
+\itemize{
+  \item Lizzie Neumann \email{<neumannl@hsu-hh.de>} (\href{https://orcid.org/0000-0003-2256-1127}{ORCID})
+}
+
+}
