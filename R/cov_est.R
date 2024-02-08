@@ -23,7 +23,7 @@
 #' K = dnorm(z - znew, 0, h, false)
 #'
 #' The conditional covariance is estimated as follows
-#' cest = (K*t(x - mx)*(x - mx)  + sumK_old*cest_old) / (sum(K) + sumK_old) where
+#' cest = (K*transpose(x - mx)*(x - mx)  + sumK_old*cest_old) / (sum(K) + sumK_old) where
 #' mx is the conditional mean estimated using, e.g., meanest.
 #' @author Lizzie Neumann
 #' @references Neumann et al. (2024).
@@ -79,7 +79,7 @@ covest <- function(x, z, znew, h, cest_old, sumK_old, mx) {
 #' K = dnorm(z - znew, 0, h, false)
 #'
 #' The conditional mean is estimated as follows
-#' mest = (K*t(x) + sumK_old*mean_old) / (sum(K) + sumK_old).
+#' mest = (K*transpose(x) + sumK_old*mean_old) / (sum(K) + sumK_old).
 #' @author Lizzie Neumann
 #' @references Neumann et al. (2024).
 #'  Confounder-adjusted Covariances of System Outputs and Applications to Structural Health Monitoring.

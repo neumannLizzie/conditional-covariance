@@ -46,16 +46,8 @@ package via
 ``` r
 #install.packages("librarian")
 ## also include the github repo for R-package "covest" hosted on github: neumannLizzie / conditional-covariance
-librarian::shelf(covest, dplyr, ggplot2, mgcv, patchwork, pracma, R.matlab, segmented, stats, tidyr, viridis, zoo)
+librarian::shelf(covest, dplyr, ggplot2, mgcv, patchwork, pracma, R.matlab, segmented, stats, tidyr, viridis, zoo, quiet = TRUE)
 ```
-
-    ## 
-    ##   The 'cran_repo' argument in shelf() was not set, so it will use
-    ##   cran_repo = 'https://cran.r-project.org' by default.
-    ## 
-    ##   To avoid this message, set the 'cran_repo' argument to a CRAN
-    ##   mirror URL (see https://cran.r-project.org/mirrors.html) or set
-    ##   'quiet = TRUE'.
 
 ## Reading in the data
 

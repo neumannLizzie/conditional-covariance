@@ -7,42 +7,42 @@
 covest(x, z, znew, h, cest_old, sumK_old, mx)
 }
 \arguments{
-\item{x}{Numeric Matrix. An nxp matrix containing the data (of, e.g., sensor 
-measurements or features) where the columns refer to p different sensors and 
+\item{x}{Numeric Matrix. An nxp matrix containing the data (of, e.g., sensor
+measurements or features) where the columns refer to p different sensors and
 n is the number of observations.}
 
 \item{z}{Numeric Vector. Containing the measured confounder (e.g., temperature).}
 
-\item{znew}{Integer. The value for which the conditional covariance is to be estimated.}
+\item{znew}{Numeric. The value for which the conditional covariance is to be estimated.}
 
 \item{h}{Numeric. The bandwidths, i.e. the smoothing parameter.}
 
 \item{cest_old}{Numeric Matrix. The conditional covariance at value znew.
-Only not zero if the data set is split and the conditional covariance is estimated 
+Only not zero if the data set is split and the conditional covariance is estimated
 and updated piece by piece or new data is added.}
 
-\item{sumK_old}{Numeric. Sum of kernels. Only not zero if the data set is split 
+\item{sumK_old}{Numeric. Sum of kernels. Only not zero if the data set is split
 and the conditional covariance is estimated and updated piece by piece or new data is added.}
 
 \item{mx}{Numeric Matrix. The estimated conditional mean, a nxp matrix where
 each row contains the conditional mean for each value of z.}
 }
 \value{
-Returns a matrix with p rows and p+1 columns. 
+Returns a matrix with p rows and p+1 columns.
 The pxp matrix is the covariance matrix at value znew.
 The first element of the p+1 column contains the sum of the kernel (sumK).
 }
 \description{
-Estimation of the conditional covariance using a Nadaraya-Watson 
+Estimation of the conditional covariance using a Nadaraya-Watson
 type kernel estimatior.
 }
 \details{
 The used kernel is the Gaussian kernel which equals a normal density with
-mean 0 and chosen bandwidth h. 
+mean 0 and chosen bandwidth h.
 K = dnorm(z - znew, 0, h, false)
 
 The conditional covariance is estimated as follows
-cest = (K*t(x - mx)*(x - mx)  + sumK_old*cest_old) / (sum(K) + sumK_old) where
+cest = (K*transpose(x - mx)*(x - mx)  + sumK_old*cest_old) / (sum(K) + sumK_old) where
 mx is the conditional mean estimated using, e.g., meanest.
 }
 \examples{

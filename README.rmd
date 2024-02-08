@@ -55,7 +55,7 @@ You can then install the package via *devtools::install_github("neumannLizzie/co
 ```{r load_oinstall_libraries, warning = FALSE, messages = FALSE}
 #install.packages("librarian")
 ## also include the github repo for R-package "covest" hosted on github: neumannLizzie / conditional-covariance
-librarian::shelf(covest, dplyr, ggplot2, mgcv, patchwork, pracma, R.matlab, segmented, stats, tidyr, viridis, zoo)
+librarian::shelf(covest, dplyr, ggplot2, mgcv, patchwork, pracma, R.matlab, segmented, stats, tidyr, viridis, zoo, quiet = TRUE)
 ```
 
 ## Reading in the data

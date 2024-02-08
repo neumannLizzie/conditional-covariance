@@ -7,25 +7,25 @@
 meanest(x, z, znew, h, mean_old, sumK_old)
 }
 \arguments{
-\item{x}{Numeric Matrix. An nxp matrix containing the data (of, e.g., sensor 
-measurements or features) where the columns refer to p different sensors and 
+\item{x}{Numeric Matrix. An nxp matrix containing the data (of, e.g., sensor
+measurements or features) where the columns refer to p different sensors and
 n is the number of observations.}
 
 \item{z}{Numeric Vector. Containing the measured confounder (e.g., temperature).}
 
-\item{znew}{Integer. The value for which the conditional covariance is to be estimated.}
+\item{znew}{Numeric. The value for which the conditional covariance is to be estimated.}
 
 \item{h}{Numeric. The bandwidths, i.e. the smoothing parameter.}
 
 \item{mean_old}{Numeric Vector. A 1xp vector, containing the conditional mean at value znew.
-Only not zero if the data set is split and the conditional mean is estimated 
+Only not zero if the data set is split and the conditional mean is estimated
 and updated piece by piece or new data is added.}
 
-\item{sumK_old}{Numeric. The sum of kernels. Only not zero if the data set is 
+\item{sumK_old}{Numeric. The sum of kernels. Only not zero if the data set is
 split and the conditional mean is estimated and updated piece by piece or new data is added.}
 }
 \value{
-Returns a matrix where the first column contains the conditional mean 
+Returns a matrix where the first column contains the conditional mean
 at value znew and the first element in the second column is the sum of kernels (sumK).
 }
 \description{
@@ -33,11 +33,11 @@ Estimation of the conditional mean using a Nadaraya-Watson type kernel estimatio
 }
 \details{
 The used kernel is the Gaussian kernel which equals a normal density with
-mean 0 and chosen bandwidth h. 
+mean 0 and chosen bandwidth h.
 K = dnorm(z - znew, 0, h, false)
 
 The conditional mean is estimated as follows
-mest = (K*t(x) + sumK_old*mean_old) / (sum(K) + sumK_old).
+mest = (K*transpose(x) + sumK_old*mean_old) / (sum(K) + sumK_old).
 }
 \examples{
 \dontrun{
