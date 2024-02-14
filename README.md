@@ -7,11 +7,7 @@ Applications to Structural Health Monitoring”** by L. Neumann, P.
 Wittenberg, A. Mendler, and J. Gertheiss ([Neumann et al.
 2024](#ref-Neumann.etal_2024))
 
-<!-- **TODO: indicates you can choose or change a variable or method to compare, e.g., -->
-<!-- different bandwidths or methods for estimating the conditional -->
-<!-- mean.**  -->
-
-This code contains estimation of the Nadaraya-Watson type kernel
+This code contains an estimation of the Nadaraya-Watson type kernel
 estimation of the conditional mean and covariance and different
 estimations of the conditional mean (bilinear, gam, loess, kernel) of
 the modal data of the railway bridge KW51.
@@ -20,13 +16,11 @@ Contact for questions: Lizzie Neumann, neumannl(at)hsu-hh.de
 
 ## The covest R-package
 
-<!--Describe what the R-package is for and what it does. Provide installation instructions. -->
-
-The covest package contains the implementation for the estimation of the
-conditional mean and covariance using a Nadaraya-Watson kernel based
+The covest package contains the implementation for estimating the
+conditional mean and covariance using a Nadaraya-Watson kernel-based
 estimator.
 
-The package compiles C++ source code during installation, therefore you
+The package compiles C++ source code during installation. Therefore, you
 need the appropriate compilers:
 
 On *Windows* you need
@@ -44,24 +38,33 @@ package via
 ## Load libraries
 
 ``` r
-#install.packages("librarian")
-## also include the github repo for R-package "covest" hosted on github: neumannLizzie / conditional-covariance
-librarian::shelf(covest, dplyr, ggplot2, mgcv, patchwork, pracma, R.matlab, segmented, stats, tidyr, viridis, zoo, quiet = TRUE)
+install.packages("librarian")
 ```
+
+``` r
+librarian::shelf(neumannLizzie / conditional-covariance, dplyr, ggplot2, mgcv, patchwork, pracma, R.matlab, segmented, stats, tidyr, viridis, zoo, quiet = TRUE)
+```
+
+    ## 
+    ##   These packages will be installed:
+    ## 
+    ##   'conditional-covariance'
+    ## 
+    ##   It may take some time.
 
 ## Reading in the data
 
 The data set is freely available from
-<https://zenodo.org/records/3745914>, cf. ([Maes and Lombaert
+<https://zenodo.org/records/3745914>, cf.  ([Maes and Lombaert
 2020](#ref-Maes.Lombaert_2020)), and for information on the bridge
 compare ([Maes and Lombaert 2021](#ref-Maes.Lombaert_2021)). The time is
-separated in three periods, before, during, and after retrofitting. In
-this section we load the data from the website. There are different
+separated into three periods: before, during, and after retrofitting. In
+this section, we load the data from the website. There are different
 versions for Windows, Linux and MAC OS.
 
 > \[!NOTE\]  
-> Depending on the operating system (Windows, Linux or MAC OS), choose
-> one of the below chunks to download, unzip and read in the data.
+> Depending on the operating system (Windows, Linux, or MAC OS), choose
+> one of the chunks below to download, unzip, and read the data.
 
 ### Windows
 
@@ -92,10 +95,10 @@ list.import.mat <- R.matlab::readMat("trackedmodes/trackedmodes.mat")
 
 ## Extracting the temperature and modal data
 
-In this step, we extract the steel surface temperature data and the
-modal data from the downloaded data set. The time stamp is changed to
-POSIXlt format. Here, we use only the data before the retrofitting, Oct
-2nd, 2018 - May 14th, 2019.
+In this step, we extract the steel surface temperature and modal data
+from the downloaded data set. The time stamp is changed to POSIXlt
+format. Here, we use only the data before the retrofitting, Oct 2nd,
+2018 - May 14th, 2019.
 
 ``` r
 ## environmental data
@@ -132,8 +135,8 @@ data_ef_t <- data_ef_t[1:5400,]
 
 ## Interpolating the data
 
-Due to some missing data, we choose only modes 3, 5, 6, 9, 10, 12, 13
-and 14, and interpolate the missing data linearly as done in Maes and
+Due to some missing data, we choose only modes 3, 5, 6, 9, 10, 12, 13,
+and 14 and interpolate the missing data linearly, as done in Maes and
 Lombaert ([2021](#ref-Maes.Lombaert_2021)).
 
 ``` r
@@ -152,7 +155,7 @@ pp <- ncol(data_ef_t)-1
 
 ## Set a temperature grid for the analysis
 
-Estimation of the temperature grid: from minimum to maximum measured
+Estimating the temperature grid: from minimum to maximum measured
 temperature in steps of 0.1. The range is from -3°C to 26.3°C.
 
 ``` r
@@ -164,9 +167,9 @@ c("min:", min(zseq), "max:", max(zseq))
 
 ## Four different Approaches for the Estimation of the Conditional Mean
 
-For estimating the conditional covariance we need a conditional
-estimation of the mean, here we implemented 4 different versions on how
-to estimate it. Cf. Section 2.3 in ([Neumann et al.
+For estimating the conditional covariance, we need a conditional
+estimation of the mean; here, we implemented four different versions of
+how to estimate it. Cf. Section 2.3 in ([Neumann et al.
 2024](#ref-Neumann.etal_2024)):
 
 1.  A bilinear model using R package segmented ([Muggeo
@@ -182,13 +185,13 @@ to estimate it. Cf. Section 2.3 in ([Neumann et al.
     2023](#ref-R_2023)), cf. ([Neumann et al.
     2024](#ref-Neumann.etal_2024)).
 
-4.  Nadaraya-Watson kernel estimator using our PACKAGE covest, cf.
+4.  Nadaraya-Watson kernel estimator using our package covest, cf.
     ([Neumann et al. 2024](#ref-Neumann.etal_2024)) and Yin et al.
     ([2010](#ref-Yin.etal_2010)).
 
 > \[!IMPORTANT\]  
-> Using method 4. requires specification of bandwidths h_m per mode. You
-> can try out different ones.
+> Using method 4. requires the specification of bandwidths h_m per mode.
+> You can try out different ones.
 
 ``` r
 ## 1. estimate bilinear mean using segmented
@@ -243,9 +246,9 @@ mest <- mest_bl
 > Choose bandwidth h_c.
 
 For the estimation of the conditional covariance, we need bandwidths,
-either a global bandwidth for all mode pairs, or a different one for
-each mode pair. In each column and row, we have the order mode: 3, 5, 6,
-9, 10, 12, 13 and 14.
+either a global bandwidth for all mode pairs or a different one for each
+mode pair. We have the mode order in each column and row: 3, 5, 6, 9,
+10, 12, 13, and 14.
 
 ``` r
 ## global:
@@ -266,17 +269,16 @@ h_c <- h_c_global
 
 ## Estimation of the Conditional Covariance and Correlation
 
-Now we get to the estimation of the conditional covariance and
+Now, we get to the estimation of the conditional covariance and
 correlation. This is done pairwise, so different bandwidths are taken
 into account. There is some missing data in the temperature
-measurements, so first of all we need discard this data. The conditional
-mean is then assigned to each time step, depending on the measured
-temperature. Afterwards, we can estimated the conditional covariance
-according to Equation (6) in ([Neumann et al.
-2024](#ref-Neumann.etal_2024)) (cf. Equation (2.3) in Yin et al.
-([2010](#ref-Yin.etal_2010)) and (4) in ([Neumann et al.
-2024](#ref-Neumann.etal_2024)) for the non pairwise estimation of the
-conditional covariance).
+measurements, so we must first discard this data. Depending on the
+measured temperature, the conditional mean is then assigned to each time
+step. Afterward, we can estimate the conditional covariance according to
+Equation (6) in ([Neumann et al. 2024](#ref-Neumann.etal_2024))
+(cf. Equation (2.3) in Yin et al. ([2010](#ref-Yin.etal_2010)) and (4)
+in ([Neumann et al. 2024](#ref-Neumann.etal_2024)) for the nonpairwise
+estimation of the conditional covariance).
 
 ``` r
 ## estimate conditional covariance for each sensor pair ii,jj = 1:8
@@ -322,9 +324,9 @@ for(k in 1:length(zseq)) corr[,,k] <- cov2cor(cest[,,k])
 
 ## Plot the lower triangular of the Conditional Correlation matrix for temperature levels z = -1°C and z = 10°C
 
-Now the lower triangular of the conditional correlation is plotted
-omitting the main diagonal because the correlation between the same
-modes is always 1.
+The lower triangular of the conditional correlation is plotted, omitting
+the main diagonal because the correlation between the same modes is
+always 1.
 
 ``` r
 ## plotting the conditional correlation of lower triangular 
@@ -371,10 +373,7 @@ p1 <- ggplot(df_p1, aes(x = factor(x), y = factor(y), fill = z)) +
 p1
 ```
 
-<img src="README_files/figure-gfm/pressure-1.png" width="100%" />
-
-<!-- The following figure was created by estimating the conditional correlation using the bilinear mean and a global bandwidth of 2.5.-->
-<!-- ![](figures/pressure-1.png) -->
+<img src="README_files/figure-gfm/figure-1.png" width="100%" />
 
 ## References
 
