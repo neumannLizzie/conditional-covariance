@@ -5,7 +5,7 @@ This code provides the estimation of the conditional covariance as
 presented in **“Confounder-adjusted Covariances of System Outputs and
 Applications to Structural Health Monitoring”** by L. Neumann, P.
 Wittenberg, A. Mendler, and J. Gertheiss ([Neumann et al.
-2024](#ref-Neumann.etal_2024))
+2025](#ref-Neumann.etal_2024))
 
 This code contains an estimation of the Nadaraya-Watson type kernel
 estimation of the conditional mean and covariance and different
@@ -51,6 +51,12 @@ librarian::shelf(neumannLizzie / conditional-covariance, dplyr, ggplot2, mgcv, p
     ##   'conditional-covariance'
     ## 
     ##   It may take some time.
+
+    ## Installing 3 packages: Rcpp, RcppArmadillo, checkmate
+
+    ## Paket 'Rcpp' erfolgreich ausgepackt und MD5 Summen abgeglichen
+    ## Paket 'RcppArmadillo' erfolgreich ausgepackt und MD5 Summen abgeglichen
+    ## Paket 'checkmate' erfolgreich ausgepackt und MD5 Summen abgeglichen
 
 ## Reading in the data
 
@@ -170,23 +176,23 @@ c("min:", min(zseq), "max:", max(zseq))
 For estimating the conditional covariance, we need a conditional
 estimation of the mean; here, we implemented four different versions of
 how to estimate it. Cf. Section 2.3 in ([Neumann et al.
-2024](#ref-Neumann.etal_2024)):
+2025](#ref-Neumann.etal_2024)):
 
 1.  A bilinear model using R package segmented ([Muggeo
     2008](#ref-Muggeo_2008)), cf. Maes and Lombaert
     ([2021](#ref-Maes.Lombaert_2021)) and Neumann et al.
-    ([2024](#ref-Neumann.etal_2024)).
+    ([2025](#ref-Neumann.etal_2024)).
 
 2.  Penalized regression splines using R package mgcv ([Wood
     2017](#ref-Wood_2017)), cf. Section 2.2 in ([Neumann et al.
-    2024](#ref-Neumann.etal_2024)).
+    2025](#ref-Neumann.etal_2024)).
 
 3.  Local Polynomial Regression using R package stats ([R Core Team
     2023](#ref-R_2023)), cf. ([Neumann et al.
-    2024](#ref-Neumann.etal_2024)).
+    2025](#ref-Neumann.etal_2024)).
 
 4.  Nadaraya-Watson kernel estimator using our package covest, cf.
-    ([Neumann et al. 2024](#ref-Neumann.etal_2024)) and Yin et al.
+    ([Neumann et al. 2025](#ref-Neumann.etal_2024)) and Yin et al.
     ([2010](#ref-Yin.etal_2010)).
 
 > \[!IMPORTANT\]  
@@ -275,9 +281,9 @@ into account. There is some missing data in the temperature
 measurements, so we must first discard this data. Depending on the
 measured temperature, the conditional mean is then assigned to each time
 step. Afterward, we can estimate the conditional covariance according to
-Equation (6) in ([Neumann et al. 2024](#ref-Neumann.etal_2024))
+Equation (6) in ([Neumann et al. 2025](#ref-Neumann.etal_2024))
 (cf. Equation (2.3) in Yin et al. ([2010](#ref-Yin.etal_2010)) and (4)
-in ([Neumann et al. 2024](#ref-Neumann.etal_2024)) for the nonpairwise
+in ([Neumann et al. 2025](#ref-Neumann.etal_2024)) for the nonpairwise
 estimation of the conditional covariance).
 
 ``` r
@@ -377,7 +383,8 @@ p1
 
 ## References
 
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent"
+entry-spacing="0">
 
 <div id="ref-Maes.Lombaert_2020" class="csl-entry">
 
@@ -405,9 +412,11 @@ News* 8 (1): 20–25.
 
 <div id="ref-Neumann.etal_2024" class="csl-entry">
 
-Neumann, L., P. Wittenberg, A. Mendler, and J. Gertheiss. 2024.
-“[Confounder-Adjusted Covariances of System Outputs and Applications to
-Structural Health Monitoring]().” *Preprint, Submitted*, 1–26.
+Neumann, L., P. Wittenberg, A. Mendler, and J. Gertheiss. 2025.
+“Confounder-Adjusted Covariances of System Outputs and Applications to
+Structural Health Monitoring.” *Mechanical Systems and Signal
+Processing* 224: 111983.
+https://doi.org/<https://doi.org/10.1016/j.ymssp.2024.111983>.
 
 </div>
 
